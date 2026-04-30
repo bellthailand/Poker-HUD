@@ -3,105 +3,190 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Poker HUD Analyzer - Official</title>
+  <title>Poker HUD Analyzer - Professional</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .fade-in { animation: fadeIn 0.3s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-enter { animation: fadeSlideUp 0.3s ease-out forwards; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; margin: 0; 
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-200 min-h-screen flex flex-col items-center py-8 px-4 font-sans">
-  
-  <div class="max-w-md w-full space-y-6 bg-slate-900 p-6 rounded-[2.5rem] shadow-2xl border border-slate-800">
+<body class="bg-slate-950 text-slate-200 min-h-screen flex flex-col items-center py-8 px-4 font-sans selection:bg-emerald-500 selection:text-black">
+
+  <div class="max-w-md w-full space-y-6">
     
-    <div class="text-center space-y-1">
-      <h1 class="text-2xl font-black text-white tracking-tighter italic">
-        POKER <span class="text-emerald-500">HUD</span> ANALYZER
+    <div class="text-center bg-slate-900 py-6 px-4 rounded-[2rem] border border-slate-800 shadow-2xl">
+      <h1 class="text-3xl font-black text-white italic tracking-tighter">
+        POKER <span class="text-emerald-500">HUD</span> PRO
       </h1>
-      <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.4em]">Justin Intelligence System</p>
+      <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mt-1">
+        Full Range Intelligence
+      </p>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
-      <div class="space-y-1">
-        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">VPIP %</label>
-        <input type="number" id="vpip" step="0.1" class="w-full rounded-2xl bg-black border border-slate-800 p-4 text-emerald-400 focus:border-emerald-500 outline-none text-center font-mono text-xl" placeholder="0.0">
+    <div class="bg-slate-900 p-6 rounded-[2rem] border border-slate-800 shadow-xl space-y-5">
+      <div class="grid grid-cols-2 gap-4">
+        
+        <div class="space-y-1.5">
+          <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-2">VPIP (%)</label>
+          <input type="number" id="vpip" step="0.1" class="w-full rounded-2xl bg-black border border-slate-700 p-4 text-emerald-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-center font-mono text-2xl font-bold transition-all" placeholder="0">
+        </div>
+        
+        <div class="space-y-1.5">
+          <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-2">PFR (%)</label>
+          <input type="number" id="pfr" step="0.1" class="w-full rounded-2xl bg-black border border-slate-700 p-4 text-emerald-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-center font-mono text-2xl font-bold transition-all" placeholder="0">
+        </div>
+        
+        <div class="space-y-1.5">
+          <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-2">ATS (%)</label>
+          <input type="number" id="ats" step="0.1" class="w-full rounded-2xl bg-black border border-slate-700 p-4 text-emerald-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-center font-mono text-2xl font-bold transition-all" placeholder="0">
+        </div>
+        
+        <div class="space-y-1.5">
+          <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-2">3BET (%)</label>
+          <input type="number" id="threeBet" step="0.1" class="w-full rounded-2xl bg-black border border-slate-700 p-4 text-emerald-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-center font-mono text-2xl font-bold transition-all" placeholder="0">
+        </div>
+
       </div>
-      <div class="space-y-1">
-        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">PFR %</label>
-        <input type="number" id="pfr" step="0.1" class="w-full rounded-2xl bg-black border border-slate-800 p-4 text-emerald-400 focus:border-emerald-500 outline-none text-center font-mono text-xl" placeholder="0.0">
-      </div>
-      <div class="space-y-1">
-        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">ATS %</label>
-        <input type="number" id="ats" step="0.1" class="w-full rounded-2xl bg-black border border-slate-800 p-4 text-emerald-400 focus:border-emerald-500 outline-none text-center font-mono text-xl" placeholder="0.0">
-      </div>
-      <div class="space-y-1">
-        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">3BET %</label>
-        <input type="number" id="threeBet" step="0.1" class="w-full rounded-2xl bg-black border border-slate-800 p-4 text-emerald-400 focus:border-emerald-500 outline-none text-center font-mono text-xl" placeholder="0.0">
-      </div>
+
+      <button onclick="analyzePlayer()" class="w-full py-5 rounded-2xl text-xl font-black text-black bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] uppercase tracking-tight">
+        วิเคราะห์เป้าหมาย
+      </button>
     </div>
 
-    <button onclick="run()" class="w-full py-5 rounded-2xl text-lg font-black text-black bg-emerald-500 hover:bg-emerald-400 active:scale-95 transition-all shadow-lg shadow-emerald-500/20">
-      วิเคราะห์คู่ต่อสู้
-    </button>
+    <div id="resultContainer" class="hidden space-y-4 animate-enter">
+      
+      <div class="bg-emerald-500 text-black p-6 rounded-[1.5rem] shadow-xl relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 opacity-10">
+          <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+        </div>
+        <h3 class="text-[11px] font-black uppercase tracking-widest opacity-80 mb-2">สรุปสไตล์</h3>
+        <p id="playstyleOutput" class="text-xl font-black leading-tight"></p>
+      </div>
 
-    <div id="res" class="hidden space-y-4 fade-in">
-      <div class="bg-slate-800/40 p-5 rounded-2xl border-l-4 border-emerald-500">
-        <h3 class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">ผลสรุป</h3>
-        <p id="sTxt" class="text-white text-lg font-bold leading-tight"></p>
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-[2rem] shadow-xl">
+        <h3 class="text-[11px] font-black text-amber-500 uppercase tracking-widest mb-4 flex items-center">
+          <span class="w-2 h-2 bg-amber-500 rounded-full mr-2 shadow-[0_0_8px_rgba(245,158,11,0.8)]"></span>
+          กลยุทธ์การรับมือ (Strategy)
+        </h3>
+        <div id="strategyOutput" class="space-y-3">
+          </div>
       </div>
-      <div class="bg-slate-800/40 p-5 rounded-2xl border-l-4 border-amber-500">
-        <h3 class="text-[10px] font-black text-amber-400 uppercase tracking-widest mb-1">กลยุทธ์</h3>
-        <p id="cTxt" class="text-slate-300 text-sm leading-relaxed whitespace-pre-line font-medium"></p>
-      </div>
+
     </div>
   </div>
 
   <script>
-    function run() {
-      const v = parseFloat(document.getElementById('vpip').value);
-      const p = parseFloat(document.getElementById('pfr').value);
-      const a = parseFloat(document.getElementById('ats').value);
-      const t = parseFloat(document.getElementById('threeBet').value);
+    function analyzePlayer() {
+      const vpipInput = document.getElementById('vpip').value;
+      const pfrInput = document.getElementById('pfr').value;
+      const atsInput = document.getElementById('ats').value;
+      const threeBetInput = document.getElementById('threeBet').value;
 
-      if ([v, p, a, t].some(isNaN)) { alert("กรุณากรอกข้อมูลให้ครบ"); return; }
-
-      let s = ""; let c = "";
-
-      // Logic A: Playstyle (อัปเดตตามคำสั่งล่าสุดเป๊ะๆ)
-      if (v <= 15 && p <= 15) {
-        s = "สไตล์มนุษย์หิน (Nit/Rock) ระวังภัย เล่นแต่ไพ่ชัวร์";
-        c = "วิธีรับมือ: รอดักกินชิปเขาจังหวะเขาอยู่ในตำแหน่ง BB เพราะเขาจะยอมทิ้งบลายด์ง่ายๆ แต่ถ้าเขาเปิด Raise/3BET มา ให้หมอบทันทีถ้าไม่มีไพ่พรีเมียม";
-      } else if (v > 15 && v <= 25 && p >= 12) {
-        s = "สไตล์เสือซุ่ม (Tight Aggressive) เล่นเป็นระบบ ดุดันแบบมีเหตุผล";
-        c = "วิธีรับมือ: อย่าบลัฟสุ่มสี่สุ่มห้า ให้เคารพการ Raise ของเขา และรอจังหวะดักคอลเมื่อเรามีไพ่ Top Pair ที่แข็งแกร่ง";
-      } else if (v >= 30 && p <= 18) {
-        s = "สไตล์ปลาวาฬ (Loose Passive) ชอบดูฟล็อป คอลเก่ง หมอบไม่ค่อยเป็น";
-        c = "วิธีรับมือ: ห้ามบลัฟเด็ดขาด! รอให้เราฮิตไพ่ใหญ่ๆ แล้วยิง Value Bet หนักๆ รีดชิปให้หมด";
-      } else if (v >= 26 && p > 18 && p <= 24) {
-        s = "สไตล์ดุดันแบบกว้าง (Loose Aggressive) เล่นไพ่เยอะและชอบเป็นคนคุมเกม";
-        c = "วิธีรับมือ: เขาเล่นไพ่กว้างมาก อย่าพยายามบลัฟสู้ ให้รอไพ่ที่มีมูลค่าสูง (Value) แล้วดักคอล หรือ 3-Bet สวนเพื่อบีบให้เขาหมอบ";
-      } else if (v >= 30 && p >= 25) {
-        s = "สไตล์หมาบ้า (Maniac / LAG) ดันชิปมั่ว ปล้นทุกตา บลัฟกระจาย";
-        c = "วิธีรับมือ: ปล่อยให้เขายิงบลัฟเข้ามาเอง รอไพ่ใหญ่ (AQ+, TT+) แล้วใช้จังหวะ Check-Raise หรือ 4-Bet สวนกลับ";
-      } else {
-        s = "สไตล์ก้ำกึ่ง (Mixed/Unknown)";
-        c = "วิธีรับมือ: เล่นด้วยไพ่พื้นฐาน (ABC Poker) และสังเกตพฤติกรรมเพิ่มเติม";
+      // 1. ตรวจสอบการกรอกข้อมูลให้ครบ
+      if (!vpipInput || !pfrInput || !atsInput || !threeBetInput) {
+        alert("⚠️ กรุณากรอกสถิติให้ครบทั้ง 4 ช่อง");
+        return;
       }
 
-      if (t >= 12) s += " | เครื่องจักร 3-BET";
+      const v = parseFloat(vpipInput);
+      const p = parseFloat(pfrInput);
+      const a = parseFloat(atsInput);
+      const t = parseFloat(threeBetInput);
 
-      const ex = [];
-      if (a >= 45) ex.push("🎯 จอมโจรขโมยบลายด์: ให้ 3-Bet สวนเวลาเขา Raise จากตำแหน่ง BTN/CO");
-      else if (a <= 15) ex.push("🛡️ ไม่ค่อยปล้นบลายด์: ถ้าเขา Raise จากตำแหน่งท้าย แปลว่าของจริง");
-      if (t >= 12) ex.push("⚡ 3-Bet กว้างมาก: รับมือด้วยการ 4-Bet สวนเมื่อมีไพ่ดี หรือ Trap ดักกิน");
-      else if (t <= 4) ex.push("💎 3-Bet แคบมาก: เขาถือตัวท็อป (QQ+, AK) แน่นอน หมอบได้หมอบ");
+      // 2. ป้องกันการพิมพ์ค่าเกินขอบเขต 0-100%
+      if (v < 0 || v > 100 || p < 0 || p > 100 || a < 0 || a > 100 || t < 0 || t > 100) {
+        alert("⚠️ สถิติเปอร์เซ็นต์ต้องอยู่ระหว่าง 0 - 100 เท่านั้น");
+        return;
+      }
 
-      if (ex.length > 0) c += "\n\n" + ex.join("\n");
+      let summary = "";
+      let strategies = [];
 
-      document.getElementById('sTxt').innerText = s;
-      document.getElementById('cTxt').innerText = c;
-      document.getElementById('res').classList.remove('hidden');
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      // ==========================================
+      // Logic 1: การสรุปสไตล์ (Priority-Based)
+      // ==========================================
+      if (v >= 35) {
+        if (p >= 25) {
+          summary = "สไตล์หมาบ้า (Maniac/LAG) - บุกแหลก บลัฟมั่ว";
+        } else if (p <= 18) {
+          summary = "สไตล์ปลาวาฬ (Whale/Passive Fish) - คอลเก่ง หมอบไม่เป็น";
+        } else {
+          summary = "สไตล์ Loose-Aggressive (LAG) - เล่นกว้างและดุดัน";
+        }
+      } 
+      else if (v <= 15) {
+        if (t >= 10) {
+          summary = "สไตล์มนุษย์หินเครื่องจักร (Aggressive Nit) - เล่นน้อยแต่ถ้าเล่นคือเกทับยับ";
+        } else {
+          summary = "สไตล์มนุษย์หิน (Nit/Rock) - ระวังภัย เล่นแต่ไพ่พรีเมียม";
+        }
+      } 
+      else if ((v - p) >= 15) {
+        summary = "สไตล์ปลาสายล้ม (Weak Passive) - ชอบจ้างดูไพ่แต่ไม่กล้าบุก";
+      } 
+      else {
+        summary = "สไตล์เสือซุ่ม (TAG) - ผู้เล่นมาตรฐาน มีวินัยและอันตราย";
+      }
+
+      // ==========================================
+      // Logic 2: กลยุทธ์การรับมือ (Full Coverage)
+      // ==========================================
+      
+      // ด้านความดุ
+      if ((v - p) >= 15) {
+        strategies.push("🚫 <span class='text-white font-bold'>ถ้า VPIP ห่างจาก PFR เกิน 15:</span> ห้ามบลัฟ! รอไพ่ใหญ่แล้วยิง Value Bet หนักๆ เขาจะคอลตามมาจ่ายเงินเราเอง");
+      }
+      if (p >= 25) {
+        strategies.push("💥 <span class='text-white font-bold'>ถ้า PFR >= 25:</span> อย่าพยายามเล่น Slow Play เขาจะยิงบลัฟใส่เราเอง ให้ Check-Call ดักตบหน้าสแต็ค");
+      }
+
+      // ด้านการขโมย
+      if (a >= 45) {
+        strategies.push("🥷 <span class='text-white font-bold'>ถ้า ATS >= 45:</span> เขาคือจอมโจรขโมยบลายด์ ให้ 3-Bet สวนเวลาเขา Raise จากตำแหน่งท้ายๆ บ่อยขึ้น");
+      } else if (a <= 20) {
+        strategies.push("🛡️ <span class='text-white font-bold'>ถ้า ATS <= 20:</span> เขาไม่ค่อยปล้น ถ้าเขา Raise จากตำแหน่งท้าย แปลว่าเขามีไพ่จริง");
+      }
+
+      // ด้านการเกทับ
+      if (t >= 12) {
+        strategies.push("⚡ <span class='text-white font-bold'>ถ้า 3BET >= 12:</span> เขาเกทับกว้างมาก ให้ 4-Bet สวนด้วยไพ่ดี หรือเล่นแบบดักทาง");
+      } else if (t <= 4) {
+        strategies.push("💎 <span class='text-white font-bold'>ถ้า 3BET <= 4:</span> ถ้าเขา 3-Bet มา ให้หมอบทันทีถ้าไม่มี AA/KK เพราะเขามีของจริง 100%");
+      }
+
+      // ตรวจสอบความสมดุล
+      if (strategies.length === 0) {
+        strategies.push("🎯 สถิติอยู่ในเกณฑ์สมดุล ไม่มีจุดอ่อนที่ชัดเจน ให้เล่นตามหลัก ABC Poker และเน้นโฟกัสสถานการณ์จริงบนโต๊ะ");
+      }
+
+      // ==========================================
+      // 3. จัดการ UI
+      // ==========================================
+      document.getElementById('playstyleOutput').innerText = summary;
+      
+      const strategyContainer = document.getElementById('strategyOutput');
+      strategyContainer.innerHTML = "";
+      
+      strategies.forEach(strat => {
+        const div = document.createElement('div');
+        div.className = "p-4 bg-black/40 border border-slate-700/50 rounded-xl text-sm leading-relaxed text-slate-300";
+        div.innerHTML = strat;
+        strategyContainer.appendChild(div);
+      });
+
+      const resultUI = document.getElementById('resultContainer');
+      resultUI.classList.remove('hidden');
+      
+      setTimeout(() => {
+        resultUI.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
     }
   </script>
 </body>
